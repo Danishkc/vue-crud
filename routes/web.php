@@ -4,15 +4,20 @@ use App\Http\Controllers\ProfileController;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
+use App\Http\Controllers\CustomerController;
 
 Route::get('/', function () {
-    return Inertia::render('Welcome', [
-        'canLogin' => Route::has('login'),
-        'canRegister' => Route::has('register'),
-        'laravelVersion' => Application::VERSION,
-        'phpVersion' => PHP_VERSION,
-    ]);
+    return Inertia::render('home');
 });
+
+
+
+Route::get('customers/create', [CustomerController::class, 'create']);
+Route::get('customers', [CustomerController::class, 'index'])->name('customers.index');
+Route::post('customers',[CustomerController::class, 'store']);
+Route::delete('customers/{customer}', [CustomerController::class, "destroy"]);
+Route::get('customers/{customer}/edit', [CustomerController::class, "edit"]);
+Route::put('customers/{customer}', [CustomerController::class, 'update']);
 
 Route::get('/dashboard', function () {
     return Inertia::render('Dashboard');
